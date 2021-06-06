@@ -70,7 +70,7 @@ export default {
     clickLogout(){
       axios.get('api/auth/logout')
       .then((res)=>{
-        console.log(res.data);
+        // console.log(res.data);
         if(res.data==='logged_out'){
             alert('로그아웃 되었습니다.');
             this.logged = false;

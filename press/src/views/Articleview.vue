@@ -1,5 +1,5 @@
 <template>
-<div class="ArticleView">
+<div class="ArticleView mx-auto">
     <v-row no-gutters>
         <v-col class="d-flex my-5" cols="12">
             <p style="cursor:pointer;" class="listSubText" @click="toHome"><v-icon small>mdi-home</v-icon>Home</p>
@@ -36,7 +36,15 @@
             </div>
         </v-col>
         <v-col v-if="!this.$vuetify.breakpoint.mdAndDown" cols="3" lg="3">
-            <p>최신 뉴스</p>
+            <v-row no-gutters>
+                <v-col cols="12">
+                    <p class="newsTitleText ml-3">최신뉴스</p>
+                <v-divider></v-divider>
+                </v-col>
+                <v-col cols="12">
+                    <Timeline/>
+                </v-col>
+            </v-row>
         </v-col>
     </v-row>
 </div>
@@ -44,8 +52,12 @@
 
 <script>
 import axios from 'axios'
+import Timeline from '@/components/Timeline.vue'
 import VueCookies from 'vue-cookies'
 export default {
+    components:{
+        Timeline,
+    },
     data(){
         return{
             toggle_exclusive:0,

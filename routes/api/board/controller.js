@@ -181,7 +181,7 @@ exports.search = (req,res) =>{
     const {bNum,word} = req.body;
     if(bNum===null)
     {
-        Board.find({bNum:bNum},function(err, board){
+        Board.find({},function(err, board){
             const result =
             board.filter (x => {
                 return x.title.toLowerCase().includes(word.toLowerCase()) || x.contents.replace(/(<([^>]+)>|&nbsp;)/ig," ").toLowerCase().includes(word.toLowerCase())
@@ -203,16 +203,30 @@ exports.search = (req,res) =>{
 exports.takeboard = (req,res) =>{
     const {bNum ,limit , page, word} = req.body;
     if(bNum===null){
-        Board.paginate({},{page:page,limit:limit,sort:{_id:-1}},(err , result)=>{
-            const length = result.totalDocs
-            const docs = result.docs;
-            const s =
-            docs.filter (x => {
-                return x.title.toLowerCase().includes(word.toLowerCase()) || x.contents.replace(/(<([^>]+)>|&nbsp;)/ig," ").toLowerCase().includes(word.toLowerCase())
+        if(word!=""){
+            Board.find({},function(err, board){
+                const result =
+                board.filter (x => {
+                    return x.title.toLowerCase().includes(word.toLowerCase()) || x.contents.replace(/(<([^>]+)>|&nbsp;)/ig," ").toLowerCase().includes(word.toLowerCase())
+                });
+                const l = result.length
+                const r = result.slice((limit*(page-1)),(limit*page))
+                const s = {docs:r,totalDocs:l}
+                res.send(s);
+            })
+        }
+        else{
+            Board.paginate({},{page:page,limit:limit,sort:{_id:-1}},(err , result)=>{
+                const length = result.totalDocs
+                const docs = result.docs;
+                const s =
+                docs.filter (x => {
+                    return x.title.toLowerCase().includes(word.toLowerCase()) || x.contents.replace(/(<([^>]+)>|&nbsp;)/ig," ").toLowerCase().includes(word.toLowerCase())
+                });
+                const r = {docs:s,totalDocs:length}
+                res.send(r);
             });
-            const r = {docs:s,totalDocs:length}
-            res.send(r);
-        });
+        }
     }
     else{
         Board.paginate({bNum:bNum},{page:page,limit:limit,sort:{_id:-1}},(err , result)=>{

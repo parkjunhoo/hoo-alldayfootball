@@ -2,32 +2,33 @@
 <div v-scroll="onScroll" class="screen">
   <v-app>
     <Header v-if="!isAdmin" />
+    <Drawer/>
     <v-main>
-      <div style="height:90%;" class="d-flex mt-5">
+      <!-- <div style="height:100%;" class="d-flex mt-5">
         <div v-if="!this.$vuetify.breakpoint.mdAndDown && !isAdmin " class="mx-auto" style="width:10%; height:100%;">
           <div :style="{top:adTop}" style="position:absolute; width:inherit; height:600px; transition: " class="ad purple">광고1</div>
-        </div>
+        </div> -->
         <router-view :style="{width:ContentWidth}" />
-        <div v-if="!this.$vuetify.breakpoint.mdAndDown && !isAdmin" class="mx-auto" style="width:10%; height:100%;">
+        <!-- <div v-if="!this.$vuetify.breakpoint.mdAndDown && !isAdmin" class="mx-auto" style="width:10%; height:100%;">
           <div :style="{top:adTop}" style="position:absolute; width:inherit; height:600px; transition:" class="ad purple">광고2</div>
         </div>
-      </div>
-      <Footer v-if="!isAdmin" style="position:relative; z-index:0;"/>
+      </div> -->
+      <Footer v-if="!isAdmin"/>
     </v-main>
-    
   </v-app>
 </div>
 </template>
 
 <script>
-
 import Header from '@/components/Header/Header.vue'
 import Footer from '@/components/Footer.vue'
+import Drawer from '@/components/Drawer.vue'
 export default {
   name: 'App',
   components:{
+    Drawer,
     Header,
-    Footer,
+    Footer
   },
   data(){
     return{

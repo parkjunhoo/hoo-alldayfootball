@@ -1,5 +1,5 @@
 {
-  "name": "press",
+  "name": "allground",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "core-js": "^3.6.5",
+    "babel-polyfill": "^6.26.0",
+    "core-js": "^3.12.1",
+    "es6-promise": "^4.2.8",
     "jodit": "^3.6.18",
     "vue": "^2.6.11",
+    "vue-analytics": "^5.22.1",
     "vue-cookies": "^1.7.4",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.0",
@@ -28,7 +31,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.32.0",
     "sass-loader": "^10.0.0",
-    "vue-cli-plugin-vuetify": "~2.4.0",
+    "vue-cli-plugin-vuetify": "~2.3.1",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.0"
   }

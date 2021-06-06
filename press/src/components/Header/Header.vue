@@ -40,37 +40,41 @@
               </v-card>
             </v-col>
             <v-col cols="12">
-                <v-card v-if="!this.$vuetify.breakpoint.mdAndDown" class="d-flex justify-center" height="55" color="green darken-2">
-                    <v-menu open-on-hover offset-y>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-tab :ripple="false" style="text-decoration: none;" to="/Articlelist?name=k1" class="d-flex align-center justify-center px-15" v-bind="attrs" v-on="on">
-                            <p style="color:white;" class="listSubText">집중 취재 <v-icon small color="white">mdi-chevron-down</v-icon></p>
-                        </v-tab>
-                    </template>
-                    <v-list :rounded="false" color="green darken-2">
-                        <v-list-item v-for="(i, index) in subMenu" :key="index" class="d-flex pa-0">
-                            <v-card :rounded="false" elevation="0" color="green darken-2" height="100%" width="100%" class="py-2" :to="i.to">
-                                <p style="text-align:center; color:white;" class="listSubText">{{ i.title }}</p>
-                            </v-card>
-                        </v-list-item>
-                    </v-list>
-                    </v-menu>
+                <v-card v-if="!this.$vuetify.breakpoint.mdAndDown" class="d-flex justify-center" height="55" width="100%" color="green darken-2">
+                    <div style="width:100%;" class="d-flex">
+                        <v-menu open-on-hover offset-y>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-tab :ripple="false" style="text-decoration: none;" to="/Articlelist?name=k1" class="d-flex align-center justify-center px-15" v-bind="attrs" v-on="on">
+                                    <p style="color:white;" class="listSubText">집중 취재 <v-icon small color="white">mdi-chevron-down</v-icon></p>
+                                </v-tab>
+                            </template>
+                            <v-list :rounded="false" color="green darken-2">
+                                <v-list-item v-for="(i, index) in subMenu" :key="index" class="d-flex pa-0">
+                                    <v-card :rounded="false" elevation="0" color="green darken-2" height="100%" width="100%" class="py-2" :to="i.to">
+                                        <p style="text-align:center; color:white;" class="listSubText">{{ i.title }}</p>
+                                    </v-card>
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
                     <v-tab style="text-decoration: none;" :ripple="false" :to="i.to" class="d-flex align-center pa-0 mx-auto" v-for="i in menuList" :key="i.title">
                         <p style="color:white;" class="listSubText">{{i.title}}</p>
                     </v-tab>
+                    </div>
                     <div class="d-flex align-center pt-1 px-3">
-                        <v-text-field label="검색" height="35" background-color="green lighten-2" solo hide-details>
+                        <v-text-field @keypress.enter="clickSearch" v-model="search" label="검색" height="35" background-color="green lighten-2" solo hide-details>
                             <template v-slot:append-outer>
-                                <v-btn @click="test" class="pb-2" icon><v-icon>mdi-magnify</v-icon></v-btn>
+                                <v-btn @click="clickSearch" class="pb-2" icon><v-icon>mdi-magnify</v-icon></v-btn>
                             </template>
                         </v-text-field>
                     </div>
                 </v-card>
                 <v-card v-if="this.$vuetify.breakpoint.mdAndDown" class="d-flex justify-space-around" height="55" color="green">
-                    <div class="d-flex align-center pt-1 px-3">
-                        <v-text-field label="검색" height="35" background-color="green lighten-2" solo hide-details>
+                    <v-app-bar-nav-icon class="my-auto mx-5" color="white" @click="OpenDrawer"></v-app-bar-nav-icon>
+                    <v-spacer></v-spacer>
+                    <div class="d-flex align-center pt-1 mr-2">
+                        <v-text-field @keypress.enter="clickSearch" v-model="search" label="검색" height="35" background-color="green lighten-2" solo hide-details>
                             <template v-slot:append-outer>
-                                <v-btn @click="test" class="pb-2" icon><v-icon>mdi-magnify</v-icon></v-btn>
+                                <v-btn @click="clickSearch" class="pb-2" icon><v-icon>mdi-magnify</v-icon></v-btn>
                             </template>
                         </v-text-field>
                     </div>
@@ -84,6 +88,7 @@
 export default {
     data(){
         return{
+            search:'',
             menuList:[
                 {title:'인터뷰', to:'/Articlelist?name=interview'},
                 {title:'스포츠 칼럼', to:'/Articlelist?name=column'},
@@ -111,8 +116,11 @@ export default {
         },
     },
     methods:{
-        test(){
-            console.log(this.$route.name);
+        clickSearch(){
+            if(this.$route.query.name!=`/Articlelist?name=search&word=${this.search}`) this.$router.push(`/Articlelist?name=search&word=${this.search}`)
+        },
+        OpenDrawer(){ // drawer를 띄우는 메소드 ㅇㅅㅇ //
+            this.$store.commit('set_drawerBool',!this.$store.state.drawerBool);
         },
     },
 }

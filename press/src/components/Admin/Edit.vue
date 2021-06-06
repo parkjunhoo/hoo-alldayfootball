@@ -15,7 +15,7 @@
             <v-text-field v-model="title" label="제목" solo hide-details></v-text-field>
         </v-col>
         <v-col style="border-bottom:1px solid grey;" cols="12">
-            <div id="editor"></div>
+            <div id="editor1"></div>
         </v-col>
         <v-col class="d-flex justify-center" cols="12">
             <v-btn class="ma-3" @click="clickSubmit" width="100px" color="green">등록하기</v-btn>
@@ -58,14 +58,14 @@ export default {
                     },
                 }
             }
-        this.editor = new Jodit('#editor',uploadOptions)
+        this.editor = new Jodit('#editor1',uploadOptions)
         this.editor.value = "";
         axios.get('http://alldayfootball.co.kr/api/auth/check')
         .then((res)=>{
         this.author=res.data.info.id
         })
             var n = parseInt(this.$route.query.num);
-            console.log(n);
+            // console.log(n);
             axios.post('http://alldayfootball.co.kr/api/board/findone',{
                 seq:n
             })
@@ -121,7 +121,7 @@ export default {
             }
         },
         clickSubmit(){
-            console.log(this.id,this.title,this.editor.value,this.radioGroup);
+            // console.log(this.id,this.title,this.editor.value,this.radioGroup);
             axios.put('http://alldayfootball.co.kr/api/board/edit',{
                 id: this.id,
                 title: this.title,

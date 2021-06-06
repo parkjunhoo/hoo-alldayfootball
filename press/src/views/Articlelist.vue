@@ -1,5 +1,5 @@
 <template>
-<div class="articlelist">
+<div class="articlelist mx-auto">
     <v-row no-gutters>
         <v-col cols="12" lg="9">
             <v-row no-gutters>
@@ -105,34 +105,16 @@
         </v-col>
         <v-col v-if="!this.$vuetify.breakpoint.mdAndDown" cols="3">
             <v-row no-gutters style="height:200px;">
-                광고3
+                .
             </v-row>
             <v-divider style="width:90%; border-bottom:2px solid rgba(0, 0, 0, 0.3);"></v-divider>
-            <v-row no-gutters>
+            <v-row  no-gutters>
                 <v-col cols="12">
-                    <p>최신뉴스</p>
+                    <p class="newsTitleText ml-3">최신뉴스</p>
                 <v-divider></v-divider>
                 </v-col>
                 <v-col cols="12">
-                    <div style="background-color:red; width:100%; height:350px;"></div>
-                </v-col>
-            </v-row>
-            <v-row no-gutters>
-                <v-col cols="12">
-                    <p>인기뉴스</p>
-                <v-divider></v-divider>
-                </v-col>
-                <v-col cols="12">
-                    <div style="background-color:red; width:100%; height:350px;"></div>
-                </v-col>
-            </v-row>
-            <v-row no-gutters>
-                <v-col cols="12">
-                    <p>뉴스</p>
-                <v-divider></v-divider>
-                </v-col>
-                <v-col cols="12">
-                    <div style="background-color:red; width:100%; height:350px;"></div>
+                    <Timeline/>
                 </v-col>
             </v-row>
         </v-col>
@@ -141,8 +123,12 @@
 </template>
 
 <script>
+import Timeline from '@/components/Timeline.vue'
 import axios from 'axios'
 export default {
+    components:{
+        Timeline
+    },
     data(){
         return{
             boardResult:[],
@@ -161,11 +147,29 @@ export default {
         case 'interview' : this.takeBoard(5); break;
         case 'column' : this.takeBoard(6); break;
         case 'kresult' : this.takeBoard(7); break;
+        case 'search' : this.takeBoard(8); break;
         default : this.takeBoard(0); break;
         }
     },
     methods:{
         takeBoard(Num){
+            if(Num===8)
+            {
+                axios.post('http://alldayfootball.co.kr/api/board/takeboard',{
+                bNum: null,
+                limit: this.limit,
+                page: this.page,
+                word:this.$route.query.word
+            })
+            .then((res=>{
+                this.boardResult = res.data.docs;
+                this.bLength = res.data.totalDocs;
+                this.findThumb();
+                this.findPretext();
+                this.page = 1;
+            }))
+            return;
+            }
             axios.post('http://alldayfootball.co.kr/api/board/takeboard',{
                 bNum: Num,
                 limit: this.limit,
@@ -177,6 +181,7 @@ export default {
                 this.bLength = res.data.totalDocs;
                 this.findThumb();
                 this.findPretext();
+                this.page = 1;
             }))
         },
         findThumb(){
@@ -217,6 +222,7 @@ export default {
                 case 'interview' :return '인터뷰';
                 case 'column' :return '스포츠 칼럼';
                 case 'kresult' :return 'K리그 경기 결과';
+                case 'search' :return '검색 결과';
                 default : return 'title'
             }
         },
@@ -239,6 +245,7 @@ export default {
                 case 'interview' : this.takeBoard(5); break;
                 case 'column' : this.takeBoard(6); break;
                 case 'kresult' : this.takeBoard(7); break;
+                case 'search' : this.takeBoard(8); break;
                 default : this.takeBoard(0); break;
             }
         },
@@ -252,6 +259,7 @@ export default {
                 case 'interview' : this.takeBoard(5); break;
                 case 'column' : this.takeBoard(6); break;
                 case 'kresult' : this.takeBoard(7); break;
+                case 'search' : this.takeBoard(8); break;
                 default : this.takeBoard(0); break;
             }
         },
