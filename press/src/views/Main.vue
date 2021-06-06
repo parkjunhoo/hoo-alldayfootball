@@ -68,7 +68,10 @@
 
 
     <v-row no-gutters>
-      <p class="mt-10">최신 뉴스</p>
+      <v-col class="green darken-3" cols="12">
+        <p class="mainSubTitleText px-5 py-3" style="font-weight:300;">최신 뉴스</p>
+      <v-divider></v-divider>
+      </v-col>
     </v-row>
     <v-row no-gutters class="mt-5">
       <v-col v-for="(i,idx) in boardResult.slice(3,16)" :key="idx" cols="6" lg="4">
