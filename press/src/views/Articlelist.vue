@@ -181,7 +181,6 @@ export default {
                 this.bLength = res.data.totalDocs;
                 this.findThumb();
                 this.findPretext();
-                this.page = 1;
             }))
         },
         findThumb(){
@@ -262,6 +261,9 @@ export default {
                 case 'search' : this.takeBoard(8); break;
                 default : this.takeBoard(0); break;
             }
+        },
+        toggle(){
+            this.page=1;
         },
     },
 
