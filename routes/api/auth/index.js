@@ -7,7 +7,10 @@ const authMiddleware = require('../../../middlewares/auth')
 
 router.post('/register',controller.register)
 router.post('/login',controller.login)
+router.post('/delete',controller.delete)
+router.put('/edit',controller.edit)
 router.get('/logout',controller.logout)
+router.get('/find',controller.find)
 
 router.use('/check', authMiddleware)
 router.get('/check', controller.check)

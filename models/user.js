@@ -14,6 +14,14 @@ const Users = new Schema({
         type: String,
         required : true
     },
+    name: {
+        type : String,
+        required : true
+    },
+    superAdmin: {
+        type: Boolean, 
+        default: false,
+    },
     admin: {
         type: Boolean, 
         default: false,
@@ -27,13 +35,14 @@ const Users = new Schema({
 }
 );
 
-Users.statics.create = function(id, password) {
+Users.statics.create = function(id, name, password) {
     const encrypted = crypto.createHmac('sha1', config.secret)
                       .update(password)
                       .digest('base64')
 
     const user = new this({
         id,
+        name,
         password: encrypted
     })
 
@@ -57,6 +66,11 @@ Users.methods.verify = function(password) {
 
 Users.methods.assignAdmin = function() {
     this.admin = true
+    return this.save()
+}
+
+Users.methods.assignSuperAdmin = function() {
+    this.superAdmin = true
     return this.save()
 }
 

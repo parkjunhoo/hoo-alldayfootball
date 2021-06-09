@@ -1,51 +1,87 @@
 const jwt = require('jsonwebtoken')
 const User = require('../../../models/user')
+const crypto = require('crypto')
+const config = require('../../../config')
 
 
 exports.register = (req, res) => {
-    const { id, password } = req.body
+    const { id, name, password, superAdmin } = req.body
     let newUser = null
-
-    const create = (user) => {
-        if(user) {
-            res.send("id_exists");
-        } else {
-            return User.create(id, password)
+    const token = req.session.token;
+    if(!token) {
+        return res.send('not_logged')
+    }
+    const p = new Promise(
+        (resolve, reject) => {
+            jwt.verify(token, req.app.get('jwt-secret'), (err, decoded) => {
+                if(err) reject(err)
+                resolve(decoded)
+            })
         }
-    }
-
-    const count = (user) => {
-        newUser = user
-        return User.count({}).exec()
-    }
-
-    const assign = (count) => {
-        if(count === 1) {
-            return newUser.assignAdmin()
-        } else {
-            return Promise.resolve(false)
-        }
-    }
-
-    const respond = (isAdmin) => {
-        res.json({
-            message: 'registered',
-            admin: isAdmin ? true : false
-        })
-    }
+    )
 
     const onError = (error) => {
-        res.status(409).json({
+        res.status(403).json({
+            success: false,
             message: error.message
         })
     }
 
-    User.findOneById(id)
-    .then(create)
-    .then(count)
-    .then(assign)
-    .then(respond)
-    .catch(onError)
+    p.then((decoded)=>{
+        if(decoded.superAdmin)
+        {
+            const create = (user) => {
+                if(user) {
+                    res.send("id_exists");
+                } else {
+                    return User.create(id, name, password, superAdmin)
+                }
+            }
+        
+            const count = (user) => {
+                newUser = user
+                return User.count({}).exec()
+            }
+        
+            const assign = (count) => {
+                if(superAdmin) {
+                    newUser.assignAdmin();
+                    newUser.assignSuperAdmin();
+                    return;
+                } else {
+                    return newUser.assignAdmin();
+                }
+            }
+        
+            const respond = () => {
+                res.json({
+                    message: 'registered',
+                    admin: true
+                })
+            }
+        
+            const onError = (error) => {
+                res.status(409).json({
+                    message: error.message
+                })
+            }
+
+            User.findOneById(id)
+            .then(create)
+            .then(count)
+            .then(assign)
+            .then(respond)
+            .catch(onError)
+        }
+        else res.send('not_admin')
+    }).catch(onError)
+
+    // User.findOneById(id)
+    // .then(create)
+    // .then(count)
+    // .then(assign)
+    // .then(respond)
+    // .catch(onError)
 }
 
 exports.login = (req, res) => {
@@ -66,7 +102,9 @@ exports.login = (req, res) => {
                         {
                             _id: user._id,
                             id: user.id,
-                            admin: user.admin
+                            name: user.name,
+                            admin: user.admin,
+                            superAdmin: user.superAdmin
                         }, 
                         secret, 
                         {
@@ -125,5 +163,127 @@ exports.logout = (req, res) => {
     else{
         res.send('not_logged');
     }
+}
 
+exports.find = (req, res) => {
+    const token = req.session.token;
+    if(!token) {
+        return res.send('not_logged')
+    }
+    const p = new Promise(
+        (resolve, reject) => {
+            jwt.verify(token, req.app.get('jwt-secret'), (err, decoded) => {
+                if(err) reject(err)
+                resolve(decoded)
+            })
+        }
+    )
+
+    const onError = (error) => {
+        res.status(403).json({
+            success: false,
+            message: error.message
+        })
+    }
+
+    p.then((decoded)=>{
+        if(decoded.admin)
+        {
+            User.find(function(err, user){
+                if(err) return res.send(err);
+                res.json(user);
+            })
+        }
+        else res.send('not_admin')
+    }).catch(onError)
+}
+
+exports.delete = (req ,res) => {
+    const { id } = req.body
+    const token = req.session.token;
+    if(!token) {
+        return res.send('not_logged')
+    }
+    const p = new Promise(
+        (resolve, reject) => {
+            jwt.verify(token, req.app.get('jwt-secret'), (err, decoded) => {
+                if(err) reject(err)
+                resolve(decoded)
+            })
+        }
+    )
+
+    const onError = (error) => {
+        res.status(403).json({
+            success: false,
+            message: error.message
+        })
+    }
+
+    p.then((decoded)=>{
+        if(decoded.superAdmin)
+        {
+            const { id } = req.body
+            User.deleteOne({id:id})
+            .then(()=>{
+                res.send('deleted');
+            })
+        }
+        else res.send('not_admin')
+    }).catch(onError)
+
+}
+
+exports.edit = (req, res) => {
+    const {id , name , password, superAdmin} = req.body
+    const token = req.session.token;
+    if(!token) {
+        return res.send('not_logged')
+    }
+    const p = new Promise(
+        (resolve, reject) => {
+            jwt.verify(token, req.app.get('jwt-secret'), (err, decoded) => {
+                if(err) reject(err)
+                resolve(decoded)
+            })
+        }
+    )
+
+    const onError = (error) => {
+        res.status(403).json({
+            success: false,
+            message: error.message
+        })
+    }
+
+    p.then((decoded)=>{
+        if(decoded.superAdmin)
+        {
+            if(password==='')
+            {
+                User.findOneAndUpdate({id:id,},{$set:{name:name,superAdmin:superAdmin}})
+                .then(()=>{
+                    res.send('updated');
+                })
+                return;
+            }
+            else{
+                const encrypted = crypto.createHmac('sha1', config.secret)
+                .update(password)
+                .digest('base64')
+
+                User.findOneAndUpdate({id:id,},{$set:{name:name,password:encrypted,superAdmin:superAdmin}})
+                .then(()=>{
+                    res.send('updated');
+                })
+            }
+        }
+        else res.send('not_admin')
+    }).catch(onError)
+
+
+    // Board.findOneAndUpdate({_id:id,},{$set:{title:title,contents:contents}})
+    // .then(()=>{
+    //     res.send('updated');
+    // })
 }
