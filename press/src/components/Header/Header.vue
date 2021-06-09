@@ -3,7 +3,7 @@
 
         <v-row no-gutters>
             <v-col class="d-flex justify-center mt-10" cols="12">
-                <v-card to="/" elevation="0" class="transparent" width="300" height="70"><v-img contain src="@/assets/logo/logo.png"></v-img></v-card>
+                <v-card to="/" elevation="0" class="transparent" width="300" height="94"><v-img width="100%" height="100%" contain src="@/assets/logo/logo.png"></v-img></v-card>
             </v-col>
             <v-col class="d-flex justify-end" cols="12">
             <v-card elevation="0" class="d-flex transparent">
@@ -40,11 +40,11 @@
               </v-card>
             </v-col>
             <v-col cols="12">
-                <v-card v-if="!this.$vuetify.breakpoint.mdAndDown" class="d-flex justify-center" height="55" width="100%" color="green darken-2">
+                <v-card v-if="!this.$vuetify.breakpoint.mdAndDown" class="d-flex justify-center" height="55" width="100%" color="green darken-3">
                     <div style="width:100%;" class="d-flex">
                         <v-menu open-on-hover offset-y>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-tab :ripple="false" style="text-decoration: none;" to="/Articlelist?name=k1" class="d-flex align-center justify-center px-15" v-bind="attrs" v-on="on">
+                                <v-tab :ripple="false" style="text-decoration: none;" to="/Articlelist?name=k1" class="d-flex align-center justify-center pl-10" v-bind="attrs" v-on="on">
                                     <p style="color:white;" class="listSubText">집중 취재 <v-icon small color="white">mdi-chevron-down</v-icon></p>
                                 </v-tab>
                             </template>
@@ -59,22 +59,25 @@
                     <v-tab style="text-decoration: none;" :ripple="false" :to="i.to" class="d-flex align-center pa-0 mx-auto" v-for="i in menuList" :key="i.title">
                         <p style="color:white;" class="listSubText">{{i.title}}</p>
                     </v-tab>
+                    <v-tab style="text-decoration: none;" :ripple="false" @click="toShop" class="d-flex align-center pa-0 mx-auto">
+                        <p style="color:white;" class="listSubText">스포츠 용품점</p>
+                    </v-tab>
                     </div>
                     <div class="d-flex align-center pt-1 px-3">
-                        <v-text-field @keypress.enter="clickSearch" v-model="search" label="검색" height="35" background-color="green lighten-2" solo hide-details>
+                        <v-text-field @keypress.enter="clickSearch" v-model="search" label="검색" height="35" background-color="white" solo hide-details>
                             <template v-slot:append-outer>
-                                <v-btn @click="clickSearch" class="pb-2" icon><v-icon>mdi-magnify</v-icon></v-btn>
+                                <v-btn color="white" @click="clickSearch" class="pb-2" icon><v-icon>mdi-magnify</v-icon></v-btn>
                             </template>
                         </v-text-field>
                     </div>
                 </v-card>
                 <v-card v-if="this.$vuetify.breakpoint.mdAndDown" class="d-flex justify-space-around" height="55" color="green">
-                    <v-app-bar-nav-icon class="my-auto mx-5" color="white" @click="OpenDrawer"></v-app-bar-nav-icon>
+                    <v-app-bar-nav-icon class="my-auto ml-2" color="white" @click="OpenDrawer"></v-app-bar-nav-icon>
                     <v-spacer></v-spacer>
-                    <div class="d-flex align-center pt-1 mr-2">
-                        <v-text-field @keypress.enter="clickSearch" v-model="search" label="검색" height="35" background-color="green lighten-2" solo hide-details>
+                    <div class="d-flex align-center pt-1">
+                        <v-text-field @keypress.enter="clickSearch" v-model="search" label="검색" height="35" background-color="white" solo hide-details>
                             <template v-slot:append-outer>
-                                <v-btn @click="clickSearch" class="pb-2" icon><v-icon>mdi-magnify</v-icon></v-btn>
+                                <v-btn small color="white" @click="clickSearch" class="mr-2 pb-2" icon><v-icon>mdi-magnify</v-icon></v-btn>
                             </template>
                         </v-text-field>
                     </div>
@@ -122,6 +125,9 @@ export default {
         OpenDrawer(){ // drawer를 띄우는 메소드 ㅇㅅㅇ //
             this.$store.commit('set_drawerBool',!this.$store.state.drawerBool);
         },
+        toShop(){
+            window.open("https://smartstore.naver.com/alldaycorporation");
+        },
     },
 }
 </script>
@@ -134,6 +140,14 @@ export default {
 <style>
 .v-text-field.v-text-field--solo .v-input__control{
     min-height:35px !important;
+    width:300px;
     align-self: center;
 }
+
+@media (max-width:680px){
+    .v-text-field.v-text-field--solo .v-input__control{
+        width:250px;
+    }
+}
+
 </style>

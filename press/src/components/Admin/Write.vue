@@ -6,20 +6,21 @@
         </v-col>
     </v-row>
     <v-row class="mt-5" no-gutters>
-        <v-col cols="12">
-            <v-radio-group row v-model="radioGroup">
-                <v-radio v-for="i in bNumList" :key="i.code" :label="i.name"></v-radio>
-            </v-radio-group>
+        <v-col cols="1">
+            <v-select
+            :items="bNumItems" v-model="select"
+            style="border:0.5px solid rgba(55,55,55,.2);" color="blue darken-4" 
+            hide-details solo></v-select>
         </v-col>
-        <v-col style="border-top:1px solid rgba(55,55,55,.2);" cols="12">
-            <v-text-field v-model="title" label="제목" solo hide-details></v-text-field>
+        <v-col style="border:1px solid rgba(55,55,55,.2);" cols="11">
+            <v-text-field solo v-model="title" label="제목" hide-details></v-text-field>
         </v-col>
         <v-col style="border-bottom:1px solid grey;" cols="12">
             <div id="editor"></div>
         </v-col>
         <v-col class="d-flex justify-center" cols="12">
             <v-btn class="ma-3" @click="clickSubmit" width="100px" color="green">등록하기</v-btn>
-            <v-btn @click="cancle" class="ma-3"  width="100px" color="red">취소</v-btn>
+            <v-btn @click="cancle" class="ma-3"  width="100px" color="grey">취소</v-btn>
         </v-col>
     </v-row>
 </div>
@@ -61,7 +62,7 @@ export default {
         this.editor.value = "";
         axios.get('http://alldayfootball.co.kr/api/auth/check')
         .then((res)=>{
-            this.author=res.data.info.id
+            this.author=res.data.info.name
         })
     },
     data(){
@@ -69,18 +70,26 @@ export default {
             title:null,
             editor:null,
             author:null,
-            radioGroup:0,
-            bNumList:[
-                {name:'k1',code:0},
-                {name:'k2',code:1},
-                {name:'k3',code:2},
-                {name:'k4',code:3},
-                {name:'k5',code:4},
-                {name:'인터뷰',code:5},
-                {name:'스포츠 칼럼',code:6},
-                {name:'k리그 경기 결과',code:7},
-            ]
+            bNumItems:[
+                'k1','k2','k3','k4','k5','인터뷰','스포츠 칼럼','k리그결과',
+            ],
+            select:'k1',
         }
+    },
+    computed:{
+        radioGroup(){
+            switch(this.select){
+                case 'k1' : return 0;
+                case 'k2' : return 1;
+                case 'k3' : return 2;
+                case 'k4' : return 3;
+                case 'k5' : return 4;
+                case '인터뷰' : return 5;
+                case '스포츠 칼럼' : return 6;
+                case 'k리그결과' : return 7;
+                default: return 0;
+            }
+        },
     },
     methods:{
         cancle(){

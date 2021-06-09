@@ -12,7 +12,7 @@
             <p class="newsTitleText">{{title}}</p>
         </v-col>
         <v-col cols="auto my-3">
-            <p class="listSubText"><v-icon small>mdi-account</v-icon>{{author}}</p>
+            <p class="listTinyText"><v-icon small>mdi-account</v-icon>{{author}}</p>
         </v-col>
         <v-divider style="height:15px;" class="mx-5 my-3" vertical></v-divider>
         <v-col cols="auto my-3">
@@ -32,14 +32,13 @@
     <v-row no-gutters>
         <v-col class="mt-12" cols="12" lg="9">
             <div style="width:100%;">
-                <div v-html="contents"></div>
+                <div id="htmlViewer" v-html="contents"></div>
             </div>
         </v-col>
         <v-col v-if="!this.$vuetify.breakpoint.mdAndDown" cols="3" lg="3">
             <v-row no-gutters>
                 <v-col cols="12">
                     <p class="newsTitleText ml-3">최신뉴스</p>
-                <v-divider></v-divider>
                 </v-col>
                 <v-col cols="12">
                     <Timeline/>
@@ -148,5 +147,8 @@ export default {
 </script>
 
 <style>
-
+#htmlViewer *{
+  max-width: 100% !important;
+  height: auto !important;
+}
 </style>

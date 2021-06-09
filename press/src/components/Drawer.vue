@@ -40,6 +40,11 @@
           <v-list-item-title style="color:white; text-align:center;" class="subText"><p>{{ item.title }}</p></v-list-item-title>
         </v-list-item-content>
         </v-list-item>
+        <v-list-item link>
+        <v-list-item-content>
+          <v-list-item-title @click="toShop" style="color:white; text-align:center;" class="subText"><p>스포츠 용품 쇼핑물</p></v-list-item-title>
+        </v-list-item-content>
+        </v-list-item>
         <v-list-item class="d-flex justify-center">
             <v-card elevation="0" class="d-flex transparent">
               <v-tooltip bottom>
@@ -104,6 +109,9 @@ export default {
     },
     close(){
       this.$store.commit('set_drawerBool',false);
+    },
+    toShop(){
+      window.open("https://smartstore.naver.com/alldaycorporation");
     },
   },
   computed:{

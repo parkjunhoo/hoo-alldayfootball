@@ -11,31 +11,30 @@
                     <v-btn-toggle v-model="toggle">
                         <v-btn small>
                             <v-icon small>mdi-image-text</v-icon>
-                            <p>요약형</p>
+                            <p v-if="!$vuetify.breakpoint.mdAndDown">요약형</p>
                         </v-btn>
                         <v-btn small>
                             <v-icon small>mdi-format-align-justify</v-icon>
-                            <p>제목형</p>
+                            <p v-if="!$vuetify.breakpoint.mdAndDown">제목형</p>
                         </v-btn>
                         <v-btn small>
-                            <v-icon small>mdi-format-underline</v-icon>
-                            <p>포토형</p>
+                            <v-icon small>mdi-image</v-icon>
+                            <p v-if="!$vuetify.breakpoint.mdAndDown">포토형</p>
                         </v-btn>
                     </v-btn-toggle>
                 </v-col>
             </v-row>
-            <v-divider style="border-bottom:2px solid rgba(0, 0, 0, 0.3);"></v-divider>
-            <v-row v-if="toggle===0" no-gutters>
+            <v-divider style="border-bottom:2px solid black;"></v-divider>
+            <v-row class="my-10" v-if="toggle===0" no-gutters>
                 <v-col class="my-3 pa-3" style="border-top:1px solid rgba(0,0,0,.1); border-bottom:1px solid rgba(0,0,0,.1)" v-for="(i,idx) in boardResult" :key="idx" cols="12">
-                    <div style="width:100%; height:150px;">
                         <v-row no-gutters>
-                            <v-col cols="3">
-                                <v-card @click="goToView(i.seq)" width="100%" height="150"><v-img height="100%" width="100%" :src="i.thumb"></v-img></v-card>
+                            <v-col cols="12" lg="3">
+                                <v-card @click="goToView(i.seq)" width="100%" height="150"><v-img width="100%" height="100%" :src="i.thumb"></v-img></v-card>
                             </v-col>
                             <v-spacer></v-spacer>
-                            <v-col cols="8">
+                            <v-col cols="12" lg="8">
                                 <v-row no-gutters>
-                                    <v-col class="my-3" cols="12">
+                                    <v-col class="py-3" cols="12">
                                         <p @click="goToView(i.seq)" style="cursor:pointer" class="newsTitleText">{{i.title}}</p>
                                     </v-col>
                                 </v-row>
@@ -51,21 +50,21 @@
                                 </v-row>
                             </v-col>
                         </v-row>
-                    </div>
                 </v-col>
             </v-row>
 
             <v-row class="my-10" v-if="toggle===1" no-gutters>
                 <v-col class="my-1" v-for="(i,index) in boardResult" :key="index" cols="12">
-                    <p @click="goToView(i.seq)" style="cursor:pointer" class="tinyTitleText">{{i.title}}<span
-                    class="listTinyText ml-5">{{i.author}} ｜ {{i.regTime.slice(0,16).replace('T','｜')}}</span>
+                    <p @click="goToView(i.seq)" style="cursor:pointer; white-space: nowrap; overflow:hidden; text-overflow: ellipsis;" class="tinyTitleText">{{i.title}}
+                        <br v-if="$vuetify.breakpoint.mdAndDown">
+                        <span class="listTinyText ml-5">{{i.author}} ｜ {{i.regTime.slice(0,16).replace('T','｜')}}</span>
                     </p>
                     <v-divider class="my-5" v-if="(index===5||index===10||index===15)"></v-divider>
                 </v-col>
             </v-row>
 
             <v-row class="my-10" v-if="toggle===2" no-gutters>
-                <v-col v-for="(i,index) in boardResult" :key="index" cols="3">
+                <v-col v-for="(i,index) in boardResult" :key="index" cols="6" lg="3">
                     <v-row no-gutters class="pa-3">
                         <v-col cols="12">
                             <v-card @click="goToView(i.seq)" width="100%" height="120"><v-img height="100%" width="100%" :src="i.thumb"></v-img></v-card>
@@ -82,6 +81,7 @@
                     </v-row>
                 </v-col>
             </v-row>
+
             <v-row no-gutters>
                     <v-col cols="12">
                         <div class="text-center">
@@ -90,7 +90,7 @@
                                 <v-col cols="8">
                                 <v-container class="max-width">
                                     <v-pagination
-                                    color="green"
+                                    color="black"
                                     v-model="page"
                                     class="my-4"
                                     :length="pLength"
@@ -104,14 +104,12 @@
             </v-row>
         </v-col>
         <v-col v-if="!this.$vuetify.breakpoint.mdAndDown" cols="3">
-            <v-row no-gutters style="height:200px;">
-                .
+            <v-row no-gutters style="height:88px;">
             </v-row>
-            <v-divider style="width:90%; border-bottom:2px solid rgba(0, 0, 0, 0.3);"></v-divider>
+            <v-divider style="width:90%; border-bottom:2px solid black;"></v-divider>
             <v-row  no-gutters>
                 <v-col cols="12">
                     <p class="newsTitleText ml-3">최신뉴스</p>
-                <v-divider></v-divider>
                 </v-col>
                 <v-col cols="12">
                     <Timeline/>
@@ -166,7 +164,6 @@ export default {
                 this.bLength = res.data.totalDocs;
                 this.findThumb();
                 this.findPretext();
-                this.page = 1;
             }))
             return;
             }
@@ -226,8 +223,8 @@ export default {
             }
         },
         pLength(){
-            var quo = parseInt(this.bLength/10);
-            var rem = this.bLength % 10 ;
+            var quo = parseInt(this.bLength/this.limit);
+            var rem = this.bLength % this.limit ;
             if(quo===0) return 1;
             if(quo>0&&rem===0) return quo;
             return quo + 1 ;
@@ -235,6 +232,7 @@ export default {
     },
     watch:{
         $route(){
+            this.page=1;
             switch(this.$route.query.name){
                 case 'k1' : this.takeBoard(0); break;
                 case 'k2' : this.takeBoard(1); break;
@@ -272,5 +270,15 @@ export default {
 
 <style scoped>
 @import url("../assets/css/unify.css");
+</style>
 
+<style>
+.articlelist .v-pagination__navigation{
+    height: 25px !important;
+    width: 25px !important;
+}
+.articlelist .v-pagination__item{
+    min-width: 25px !important;
+    height: 25px !important;
+}
 </style>

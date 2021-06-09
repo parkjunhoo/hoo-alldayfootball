@@ -42,19 +42,19 @@
 
     <v-row v-if="!this.$vuetify.breakpoint.smAndDown" no-gutters class="mt-5"> 
       <v-row style="border:1px solid rgba(0,0,0,.2);" no-gutters>
-        <v-col class="green darken-3" cols="12">
-          <p class="mainSubTitleText px-5 py-3" style="font-weight:300;">많이 본 기사</p>
+        <v-col cols="12">
+          <p class="mainSubTitleText px-5 py-3" style="color:black;">많이 본 기사</p>
         <v-divider></v-divider>
         </v-col>
         <v-col cols="12">
           <v-carousel cycle interval="3000" hide-delimiters show-arrows-on-hover>
             <v-carousel-item v-for="(i,idx) in boardResultViews" :key="idx">
               <div style="height:100%;" class="d-flex">
-                <v-card style="position:absolute;" width="100%" height="100%">
+                <v-card rounded="0" style="position:absolute;" width="100%" height="100%">
                   <v-img @click="goToView(i.seq)" gradient="to top right, rgba(0,0,0,.5), rgba(0,0,0,.2)" style="position:absolute; cursor:pointer;" :src="i.thumb" width="100%" height="100%"></v-img>
                 </v-card>
-                <v-card color="rgba(55,155,55,.3)" class="pa-10 align-self-end">
-                  <p @click="goToView(i.seq)" style="color:white; cursor:pointer;" class="mainSubTitleText">{{i.title}}</p>
+                <v-card color="rgba(1,1,1,.4)" class="pa-10 align-self-end">
+                  <p @click="goToView(i.seq)" style="color:white; cursor:pointer;" class="mainSubTitleText mb-5">{{i.title}}</p>
                   <p @click="goToView(i.seq)" style="cursor:pointer; color:rgba(255,255,255,.7);" class="listSubText">{{i.pretext}}</p>
                 </v-card>
               </div>
@@ -66,8 +66,8 @@
 
     <v-row v-if="this.$vuetify.breakpoint.smAndDown" no-gutters class="mt-5"> 
       <v-row style="border:1px solid rgba(0,0,0,.2);" no-gutters>
-        <v-col class="green darken-3" cols="12">
-          <p class="mainSubTitleText px-5 py-3" style="font-weight:300;">많이 본 기사</p>
+        <v-col cols="12">
+          <p class="mainSubTitleText px-5 py-3" style="color:black;">많이 본 기사</p>
         <v-divider></v-divider>
         </v-col>
         <v-col cols="12">
@@ -75,9 +75,9 @@
             <v-carousel-item v-for="(i,idx) in boardResultViews" :key="idx">
               <v-row no-gutters style="height:100%;">
                 <v-col cols="12">
-                  <v-card width="100%" height="100%">
+                  <v-card rounded="0" width="100%" height="100%">
                     <v-img class="d-flex align-end pa-10" @click="goToView(i.seq)" gradient="to top right, rgba(0,0,0,.5), rgba(0,0,0,.2)" style="position:absolute; cursor:pointer;" :src="i.thumb" width="100%" height="100%">
-                      <p @click="goToView(i.seq)" style="color:white; cursor:pointer;" class="mainSubTitleText">{{i.title}}</p>
+                      <p @click="goToView(i.seq)" style="color:white; cursor:pointer;" class="mainSubTitleText mb-2">{{i.title}}</p>
                       <p @click="goToView(i.seq)" style="cursor:pointer; color:rgba(255,255,255,.7)" class="listSubText">{{i.pretext}}</p>
                     </v-img>
                   </v-card>
@@ -89,18 +89,19 @@
       </v-row>
     </v-row>
 
-    <v-row no-gutters class="mt-5">
-      <v-col class="green darken-3" cols="12">
-        <p class="mainSubTitleText px-5 py-3" style="font-weight:300;">최신 뉴스</p>
+    <v-row style="border:1px solid rgba(0,0,0,.2);" no-gutters class="mt-5">
+      <v-col cols="12">
+        <p class="mainSubTitleText px-5 py-3" style="color:black;">최신 뉴스</p>
       <v-divider></v-divider>
       </v-col>
       <v-col v-for="(i,idx) in boardResult.slice(3,16)" :key="idx" cols="6" lg="4">
         <div class="pa-2" style="width:100%;">
           <v-card class="scopeCard" @click="goToView(i.seq)" width="100%" height="250">
             <v-img gradient="to top right, rgba(0,0,0,.33), rgba(0,0,0,.33)" style="position:absolute;" :src="i.thumb" width="100%" height="100%"></v-img>
-            <v-card height="100%" width="100%" class="px-5 py-1 d-flex align-end" color="rgba(0,0,0,.2)">
-              <p @click="goToView(i.seq)" class="mainSubTitleText" style="cursor:pointer;">{{i.title}}</p>
-            </v-card>
+            <v-card height="100%" width="100%" color="rgba(0,0,0,.2)"></v-card>
+          </v-card>
+          <v-card elevation="0" class="px-5 py-1 d-flex align-end">
+            <p @click="goToView(i.seq)" class="mainSubTitleText" style="color:black; font-weight:600; cursor:pointer;">{{i.title}}</p>
           </v-card>
         </div>
       </v-col>
@@ -217,6 +218,7 @@ export default {
 .Main .scopeCard:hover .v-image__image{
   transition-duration: .9s;
   width:105%;
+  height: 105%;
 }
 </style>
 

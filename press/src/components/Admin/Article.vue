@@ -52,7 +52,7 @@
             <p style="overflow:hidden; border-right:1px solid black;" class="newsSubText">{{i.bNum}}</p>
         </v-col>
         <v-col class="grey lighten-2 py-2" cols="5">
-            <p @click="clickTitle(i.seq)" style="overflow:hidden; border-right:1px solid black;" class="newsSubText">{{i.title}}</p>
+            <p @click="clickTitle(i.seq)" style="overflow:hidden; border-right:1px solid black; cursor:pointer;" class="newsSubText">{{i.title}}</p>
         </v-col>
         <v-col class="grey lighten-2 py-2" cols="2">
             <p style="border-right:1px solid black;" class="newsSubText">{{i.author}}</p>
@@ -79,6 +79,7 @@
                         <v-pagination
                         v-model="page"
                         class="my-4"
+                        color="black"
                         :length="pLength"
                         ></v-pagination>
                     </v-container>
@@ -178,6 +179,14 @@ export default {
 <style>
 .Write .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot{
     box-shadow: none;
+}
+.Article .v-pagination__navigation{
+    height: 25px !important;
+    width: 25px !important;
+}
+.Article .v-pagination__item{
+    min-width: 25px !important;
+    height: 25px !important;
 }
 </style>
 

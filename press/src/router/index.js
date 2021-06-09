@@ -32,7 +32,7 @@ const routes = [
     beforeEnter: (to,from,next) => {
       axios.get('http://alldayfootball.co.kr/api/auth/check')
       .then((res)=>{
-        // console.log(res.data);
+        console.log(res.data);
         if(res.data==='not_logged'||res.data==='not_admin')
         {
           router.push('/login');
@@ -41,6 +41,7 @@ const routes = [
         else{
           if(res.data.info.admin)
           {
+            // router.push('/admin/article');
             next();
             return;
           }
@@ -124,6 +125,30 @@ const routes = [
         path : '/admin/ad',
         name : 'Ad',
         component: () => import('../components/Admin/Ad.vue'),
+        beforeEnter: (to,from,next) => {
+          axios.get('http://alldayfootball.co.kr/api/auth/check')
+          .then((res)=>{
+            // console.log(res.data);
+            if(res.data==='not_logged'||res.data==='not_admin')
+            {
+              alert('권한이 없습니다.');
+              router.push('/admin/login');
+              return;
+            }
+            else{
+              if(res.data.info.admin)
+              {
+                next();
+                return;
+              }
+            }
+          });
+        },
+      },
+      {
+        path : '/admin/accout',
+        name : 'Accout',
+        component: () => import('../components/Admin/Accout.vue'),
         beforeEnter: (to,from,next) => {
           axios.get('http://alldayfootball.co.kr/api/auth/check')
           .then((res)=>{

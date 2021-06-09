@@ -79,13 +79,11 @@ br::selection{
     font-family: 'Noto Sans KR', sans-serif;
     font-size:32px;
     color:white;
-    font-weight: 600;
 }
 .mainSubTitleText{
     font-family: 'Noto Sans KR', sans-serif;
     font-size:20px;
     color:white;
-    font-weight: 600;
 }
 .newsTitleText{
     font-family: 'Noto Sans KR', sans-serif;
@@ -104,8 +102,8 @@ br::selection{
 }
 
 .listSubText{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size:14px;
+    font-family: 'Noto Sans KR', 'sans-serif';
+    font-size:16px;
     color:#737475;
 }
 .listSubText:hover{

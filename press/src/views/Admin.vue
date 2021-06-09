@@ -8,7 +8,9 @@
 <script>
 import AdminHeader from '@/components/Admin/AdminHeader.vue'
 export default {
-
+    mounted(){
+        this.$router.push('/admin/article');
+    },
     components:{
         AdminHeader,
     },

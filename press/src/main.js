@@ -8,11 +8,11 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import VueCookies from "vue-cookies"
 
-
 Vue.config.productionTip = false;
 Vue.use(VueCookies)
 Vue.$cookies.config("1d")
 new Vue({
+  el: '#app',
   router,
   store,
   vuetify,

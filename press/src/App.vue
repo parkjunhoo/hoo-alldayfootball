@@ -42,9 +42,9 @@ export default {
     ContentWidth(){  
       if(window.location.href.includes('admin')) return '100%';
         switch(this.$vuetify.breakpoint.name){
-            case 'xs' : return "100%";
-            case 'sm' : return "100%";
-            case 'md' : return "100%";
+            case 'xs' : return "95%";
+            case 'sm' : return "95%";
+            case 'md' : return "95%";
             case 'lg' : return "60%";
             case 'xl' : return "60%";
             default : return "60%";
