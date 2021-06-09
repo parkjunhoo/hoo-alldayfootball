@@ -138,8 +138,8 @@
         </v-row>
         <v-row v-if="$vuetify.mdAndDown" class="d-flex justify-center">
             <v-col class="d-flex justify-space-around" cols="12" lg="12">
-                <v-btn x-small @click="edit" color="green">등록하기</v-btn>
-                <v-btn x-small @click="remove" color="pink">삭제하기</v-btn>
+                <v-btn x-small @click="edit" color="green">등록</v-btn>
+                <v-btn x-small @click="remove" color="pink">삭제</v-btn>
                 <v-btn x-small @click="closeDialog(1)" color="red">취소</v-btn>
             </v-col>
         </v-row>
@@ -172,11 +172,11 @@ export default {
     computed:{
         dialogWidth(){
             switch(this.$vuetify.breakpoint.name){
-                case 'xs' : return '50%';
-                case 'md' : return '70%';
-                case 'sm' : return '70%';
-                case 'lg' : return '80%';
-                case 'xl' : return '80%';
+                case 'xs' : return '100%';
+                case 'sm' : return '100%';
+                case 'md' : return '90%';
+                case 'lg' : return '60%';
+                case 'xl' : return '50%';
                 default : return '100%';
             }
         }
