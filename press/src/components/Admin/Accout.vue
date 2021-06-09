@@ -89,39 +89,39 @@
     <v-dialog v-model="dialog2" width="50%">
         <v-container class="white">
         <v-row>
-            <v-col class="black" cols="12">
+            <v-col class="black" cols="12" lg="12">
                 <p class="listSubText" style="color:white;">관리자 정보 수정</p>
             </v-col>
         </v-row>
         <v-row class="d-flex justify-center">
-            <v-col cols="2">
+            <v-col cols="12" lg="2">
                 <p class="listSubText" style="color:black;">ID</p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" lg="6">
                 <v-text-field v-model="editId" hide-details label="ID" disabled solo></v-text-field>
             </v-col>
         </v-row>
         <v-row class="d-flex justify-center">
-            <v-col cols="2">
+            <v-col cols="12" lg="2">
                 <p class="listSubText" style="color:black;">비밀번호</p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" lg="6">
                 <v-text-field v-model="editPassword" hide-details label="Password" solo></v-text-field>
             </v-col>
         </v-row>
         <v-row class="d-flex justify-center">
-            <v-col cols="2">
+            <v-col cols="12" lg="2">
                 <p class="listSubText" style="color:black;">이름</p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" lg="6">
                 <v-text-field v-model="editName" hide-details label="name" solo></v-text-field>
             </v-col>
         </v-row>
         <v-row class="d-flex justify-center">
-            <v-col class="d-flex align-center" cols="2">
+            <v-col class="d-flex align-center" lg="2">
                 <p class="listSubText" style="color:black;">구분</p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" lg="6">
                 <v-radio-group row v-model="editRadio">
                     <v-radio label="최고 관리자" :value="0"></v-radio>
                     <v-radio label="일반 관리자" :value="1"></v-radio>
@@ -130,7 +130,7 @@
         </v-row>
 
         <v-row class="d-flex justify-center">
-            <v-col class="d-flex justify-space-around" cols="12">
+            <v-col class="d-flex justify-space-around" cols="12" lg="12">
                 <v-btn @click="edit" color="green">등록하기</v-btn>
                 <v-btn @click="remove" color="pink">삭제하기</v-btn>
                 <v-btn @click="closeDialog(1)" color="red">취소</v-btn>
