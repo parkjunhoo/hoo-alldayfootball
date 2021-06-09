@@ -34,42 +34,42 @@
         </v-col>
     </v-row>
 
-    <v-dialog v-model="dialog" width="50%">
+    <v-dialog v-model="dialog" :width="dialogWidth">
         <v-container class="white">
         <v-row>
-            <v-col class="black" cols="12">
+            <v-col class="black" cols="12" lg="12">
                 <p class="listSubText" style="color:white;">관리자 등록</p>
             </v-col>
         </v-row>
         <v-row class="d-flex justify-center">
-            <v-col cols="2">
+            <v-col cols="12" lg="2">
                 <p class="listSubText" style="color:black;">ID</p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" lg="6">
                 <v-text-field v-model="regId" hide-details label="ID" solo></v-text-field>
             </v-col>
         </v-row>
         <v-row class="d-flex justify-center">
-            <v-col cols="2">
+            <v-col cols="12" lg="2">
                 <p class="listSubText" style="color:black;">비밀번호</p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" lg="6">
                 <v-text-field v-model="regPassword" hide-details label="Password" solo></v-text-field>
             </v-col>
         </v-row>
         <v-row class="d-flex justify-center">
-            <v-col cols="2">
+            <v-col cols="12" lg="2">
                 <p class="listSubText" style="color:black;">이름</p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" lg="6">
                 <v-text-field v-model="regName" hide-details label="name" solo></v-text-field>
             </v-col>
         </v-row>
         <v-row class="d-flex justify-center">
-            <v-col class="d-flex align-center" cols="2">
+            <v-col class="d-flex align-center" cols="12" lg="2">
                 <p class="listSubText" style="color:black;">구분</p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" lg="6">
                 <v-radio-group row v-model="regRadio">
                     <v-radio label="최고 관리자" :value="0"></v-radio>
                     <v-radio label="일반 관리자" :value="1"></v-radio>
@@ -86,7 +86,7 @@
         </v-container>
     </v-dialog>
 
-    <v-dialog v-model="dialog2" width="50%">
+    <v-dialog v-model="dialog2" :width="dialogWidth">
         <v-container class="white">
         <v-row>
             <v-col class="black" cols="12" lg="12">
@@ -129,11 +129,18 @@
             </v-col>
         </v-row>
 
-        <v-row class="d-flex justify-center">
+        <v-row v-if="!$vuetify.mdAndDown" class="d-flex justify-center">
             <v-col class="d-flex justify-space-around" cols="12" lg="12">
                 <v-btn @click="edit" color="green">등록하기</v-btn>
                 <v-btn @click="remove" color="pink">삭제하기</v-btn>
                 <v-btn @click="closeDialog(1)" color="red">취소</v-btn>
+            </v-col>
+        </v-row>
+        <v-row v-if="$vuetify.mdAndDown" class="d-flex justify-center">
+            <v-col class="d-flex justify-space-around" cols="12" lg="12">
+                <v-btn x-small @click="edit" color="green">등록하기</v-btn>
+                <v-btn x-small @click="remove" color="pink">삭제하기</v-btn>
+                <v-btn x-small @click="closeDialog(1)" color="red">취소</v-btn>
             </v-col>
         </v-row>
         </v-container>
@@ -160,6 +167,18 @@ export default {
             editName:'',
             editPassword:'',
             editRadio:0,
+        }
+    },
+    computed:{
+        dialogWidth(){
+            switch(this.$vuetify.breakpoint.name){
+                case 'xs' : return '50%';
+                case 'md' : return '70%';
+                case 'sm' : return '70%';
+                case 'lg' : return '80%';
+                case 'xl' : return '80%';
+                default : return '100%';
+            }
         }
     },
     mounted(){
